@@ -1,6 +1,6 @@
 {
   "name": "kraken-ws",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lightweight API wrapper for the Kraken [websocket API](https://www.kraken.com/features/websocket-api).",
   "main": "index.js",
   "scripts": {
