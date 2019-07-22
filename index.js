@@ -21,6 +21,10 @@ class Connection extends EventEmitter {
 
   connect() {
 
+    if(this.connected) {
+      return;
+    }
+
     let readyHook;
     this.onOpen = new Promise(r => readyHook = r);
 
@@ -38,7 +42,10 @@ class Connection extends EventEmitter {
       console.log(new Date, '[KRAKEN] close', e);
     }
 
-    this.ws.onmessage = this.handleMessage;
+    // initial book data coming in on the same tick as the subscription data
+    // we defer this so the subscription promise resloves before we send
+    // initial OB data.
+    this.ws.onmessage = e => setImmediate(() => this.handleMessage(e));
 
     return this.onOpen;
   }
@@ -70,7 +77,6 @@ class Connection extends EventEmitter {
 
   subscribe(pair, subscription, options) {
 
-    let registration;
     if(this.pairs[pair] && this.pairs[pair].subscriptions.includes(subscription)) {
       console.log(new Date, '[KRAKEN] refusing to subscribe to subscription twice', {pair, subscription});
       return;
