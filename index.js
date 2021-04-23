@@ -1,6 +1,6 @@
-const WebSocket = require('ws');
-const crypto = require('crypto');
-const EventEmitter = require('events');
+import WebSocket from 'ws';
+import crypto from 'crypto';
+import EventEmitter from 'events';
 
 class Connection extends EventEmitter {
 
@@ -114,4 +114,4 @@ class Connection extends EventEmitter {
 
 }
 
-module.exports = Connection;
+export default Connection;
